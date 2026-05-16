@@ -1,0 +1,174 @@
+ <!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>កម្មវិធីគណនាថ្លៃអគ្គិសនី (លុយរៀល)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Kantumruy Pro', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+        }
+
+        h2 {
+            color: #38bdf8;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0f172a;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #0284c7;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0369a1;
+        }
+
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: #0f172a;
+            border-left: 4px solid #4ade80;
+            border-radius: 4px 8px 8px 4px;
+            display: none;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .result-item:last-child {
+            margin-bottom: 0;
+            padding-top: 12px;
+            border-top: 1px solid #334155;
+            font-weight: 700;
+            color: #4ade80;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-card">
+    <h2>⚡️ គណនាថ្លៃភ្លើង (EDC)</h2>
+    
+    <div class="form-group">
+        <label for="old-num">លេខអំណានចាស់ (គីឡូខែមុន)</label>
+        <input type="number" id="old-num" placeholder="" min="0">
+    </div>
+    
+    <div class="form-group">
+        <label for="new-num">លេខអំណានថ្មី (គីឡូខែនេះ)</label>
+        <input type="number" id="new-num" placeholder="" min="0">
+    </div>
+    
+    <button onclick="calculateElectricity()">គណនាប្រាក់រៀល</button>
+    
+    <div class="result-box" id="result-section">
+        <div class="result-item">
+            <span>ភ្លើងប្រើប្រាស់សរុប:</span>
+            <span id="total-kwh" style="color: #38bdf8;">0 kWh</span>
+        </div>
+        <div class="result-item">
+            <span>ទឹកប្រាក់ត្រូវបង់សរុប:</span>
+            <span id="total-riel">0 ៛</span>
+        </div>
+    </div>
+</div>
+[5/16/2026 9:37 AM] Loch sok Lay 🌏: <script>
+    function calculateElectricity() {
+        const oldNum = parseFloat(document.getElementById('old-num').value)  0;
+        const newNum = parseFloat(document.getElementById('new-num').value)  0;
+        
+        if (newNum < oldNum) {
+            alert("លេខអំណានថ្មីមិនអាចតូចជាងលេខអំណានចាស់បានទេ!");
+            return;
+        }
+        
+        // គណនាចំនួនគីឡូដែលបានប្រើ
+        const kwh = newNum - oldNum;
+        let totalCost = 0;
+        
+        // គណនាតាមរូបមន្តកាត់ (លុយរៀលសុទ្ធ)
+        if (kwh <= 10) {
+            totalCost = kwh * 380;
+        } else if (kwh <= 50) {
+            totalCost = ((kwh - 10) * 480) + 3800;
+        } else if (kwh <= 200) {
+            totalCost = ((kwh - 50) * 610) + 23000;
+        } else {
+            totalCost = ((kwh - 200) * 730) + 114500;
+        }
+        
+        // បង្ហាញលទ្ធផលទៅលើ UI
+        document.getElementById('total-kwh').innerText = kwh.toLocaleString() + " kWh";
+        document.getElementById('total-riel').innerText = totalCost.toLocaleString() + " ៛";
+        
+        // បើកបង្ហាញប្រអប់លទ្ធផល
+        document.getElementById('result-section').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
